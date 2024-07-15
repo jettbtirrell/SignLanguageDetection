@@ -4,7 +4,7 @@ This project aims to detect and classify American Sign Language (ASL) hand signs
 
 ## Purpose
 
-The main purpose of this project is to explore the intersection of Computer Vision and ASL recognition, aswell as creating a template that others with interested in Computer Vision can modify and learn from. In this project, I have created a script to easily create your own database with bounding boxes in YOLOv8 format, a script to train a YOLOv8 model on said database, and a script to feed that model frame from live video capture, where it will give a feedback view drawing a box around the hand signs given and labelling them.
+The main purpose of this project is to explore the intersection of Computer Vision and ASL recognition, as well as creating a template that others interested in Computer Vision can modify and learn from. In this project, I have created a script to easily create your own database with bounding boxes in YOLOv8 format, a script to train a YOLOv8 model on said database, and a script to feed that model frame from live video capture, where it will give a feedback view drawing a box around the hand signs given and labelling them.
 ## Setup Instructions
 
 ### Prerequisites
