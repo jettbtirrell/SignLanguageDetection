@@ -1,0 +1,14 @@
+path: C:\Users\jettb\SignLanguageDetection\Data
+
+train: train/images
+val: valid/images
+test: test/images
+
+names: 
+  0: Hello
+  1: ILoveYou
+  2: 'No'
+  3: Okay
+  4: Please
+  5: ThankYou
+  6: 'Yes'
