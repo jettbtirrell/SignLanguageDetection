@@ -7,6 +7,8 @@ for machine learning purposes.
 import time
 import cv2
 from cvzone.HandTrackingModule import HandDetector
+import project_directory
+import os
 
 
 def initialize_folders():
@@ -14,12 +16,25 @@ def initialize_folders():
     Initializes the folder structure for storing collected data.
     :return: List of folder paths for train, valid, and test data.
     """
-    base_folder = "C:/Users/jettb/SignLanguageDetection/Data"
-    return [
+    base_folder = f"{project_directory.root}/Data"
+    folder_paths = [
         f"{base_folder}/train",
         f"{base_folder}/valid",
         f"{base_folder}/test"
     ]
+    for folder_path in folder_paths:
+        create_folder(folder_path)
+        create_folder(f"{folder_path}/images")
+        create_folder(f"{folder_path}/labels")
+    return folder_paths
+
+def create_folder(path):
+    """
+    Creates a folder if it doesn't exist.
+    :param path: Path of the folder to create.
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 def initialize_categories():
     """

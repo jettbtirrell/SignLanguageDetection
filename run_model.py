@@ -7,6 +7,7 @@ the detected gestures with bounding boxes and labels.
 from ultralytics import YOLO
 import cv2
 import torch
+import project_directory
 
 def initialize_camera():
     """
@@ -74,7 +75,7 @@ def main():
     """
     Main function to run the real time ASL detection.
     """
-    model_path = 'C:\\Users\\jettb\\SignLanguageDetection\\YOLOData2\\output\\train\\weights\\best.pt'
+    model_path = f'{project_directory.root}/Data/output/train/weights/best.pt'
     model = load_model(model_path)
     cap = initialize_camera()
     device = initialize_device()
