@@ -1,3 +1,9 @@
+"""
+This module provides functionality for training a YOLO model using ClearML for experiment 
+tracking. It includes functions for logging into ClearML, creating a task, creating a YOLO
+model, and training the model on a dataset.
+"""
+
 import torch
 from ultralytics import YOLO
 import clearml

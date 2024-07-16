@@ -4,9 +4,10 @@ detecting hand positions, and saving images with corresponding YOLO format label
 for machine learning purposes.
 """
 
+import time
 import cv2
 from cvzone.HandTrackingModule import HandDetector
-import time
+
 
 def initialize_folders():
     """
@@ -49,7 +50,7 @@ def print_instructions():
     print("Press 'c' to cycle through categories")
     print("Press 's' to save an image")
     print("Press 'q' to quit")
-    
+
 def print_current_settings(folders, current_folder_index, categories, category_index):
     """
     Prints the current folder and category settings.
@@ -81,12 +82,12 @@ def convert_bbox_to_yolo_format(bbox,img_width, img_height):
     x_topleft,y_topleft,w,h = bbox
     x_center = x_topleft + (w / 2)
     y_center = y_topleft + (h / 2)
-    
+
     x_center /= img_width
     y_center /= img_height
     bbox_width = w / img_width
     bbox_height = h / img_height
-    
+
     return x_center, y_center, bbox_width, bbox_height
 
 def create_file_name():
@@ -154,11 +155,11 @@ def handle_keypress(key, folders, current_folder_index, categories, category_ind
         save_image(folders[current_folder_index],img,file_name)
         save_label(folders[current_folder_index],label_data,file_name)
         print_image_saved(file_name,counter)
-        
+
     elif key == ord('c'):
         category_index = (category_index + 1) % len(categories)
         print(f"New category: {categories[category_index]}")
-        
+
     elif key == ord('f'):
         current_folder_index = (current_folder_index + 1) % len(folders)
         print(f"Current folder: {folders[current_folder_index]}")
@@ -174,18 +175,18 @@ def main():
     current_folder_index = 0
     category_index = 0
     saved_image_counter = 0
-    
+
     cap = initialize_camera()
     detector = initialize_hand_detector()
-    
+
     print_instructions()
     print_current_settings(folders, current_folder_index, categories, category_index)
-    
+
     while cap.isOpened():
         ret, img = cap.read()
         if ret:
             hands, img = detect_hands(detector, img)
-            
+
             bbox = None
             if hands:
                 hand = hands[0]
@@ -193,12 +194,14 @@ def main():
 
             cv2.imshow("Image", img)
             key = cv2.waitKey(1)
-            
+
             if key == ord('q'):
                 break
-            
-            current_folder_index, category_index, saved_image_counter = handle_keypress(key, folders, current_folder_index, categories, category_index, saved_image_counter, img, bbox)
-    
+
+            current_folder_index, category_index, saved_image_counter = handle_keypress(
+                key, folders, current_folder_index, categories, 
+                category_index, saved_image_counter, img, bbox)
+
     cap.release()
     cv2.destroyAllWindows()
 

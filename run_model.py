@@ -1,3 +1,9 @@
+"""
+This module provides functionality for real-time hand gesture detection using a pre-trained YOLO
+model. It captures video from the camera, processes each frame to detect hand gestures, and displays 
+the detected gestures with bounding boxes and labels.
+"""
+
 from ultralytics import YOLO
 import cv2
 import torch
@@ -15,7 +21,7 @@ def initialize_device():
     :return: Pytorch Device object.
     """
     return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    
+
 def initialize_categories():
     """
     Initializes the list of gesture categories.
@@ -43,7 +49,7 @@ def process_frame(frame, model, device, categories, padding=20, conf_threshold=0
     :return: Processed frame with detections.
     """
     results = model(frame, conf=conf_threshold, device=device)
-    
+
     for result in results:
         boxes = result.boxes
         for box in boxes:
@@ -51,9 +57,9 @@ def process_frame(frame, model, device, categories, padding=20, conf_threshold=0
             conf = box.conf.item()
             cls = int(box.cls.item())
             class_string = categories[cls]
-            
+
             label = f'Class: {class_string}, Conf: {conf:.2f}'
-            
+
             cv2.rectangle(frame, 
                           (int(bbox[0]) - padding, int(bbox[1]) - padding), 
                           (int(bbox[2]) + padding, int(bbox[3]) + padding), 
@@ -61,29 +67,32 @@ def process_frame(frame, model, device, categories, padding=20, conf_threshold=0
             cv2.putText(frame, label, 
                         (int(bbox[0]), int(bbox[1]) - padding - 5), 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-    
+
     return frame
 
 def main():
+    """
+    Main function to run the real time ASL detection.
+    """
     model_path = 'C:\\Users\\jettb\\SignLanguageDetection\\YOLOData2\\output\\train\\weights\\best.pt'
     model = load_model(model_path)
     cap = initialize_camera()
     device = initialize_device()
     categories = initialize_categories()
-    
+
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
-        
+
         processed_frame = process_frame(frame, model, device, categories)
         cv2.imshow('Detected Hands', processed_frame)
-        
+
         key = cv2.waitKey(1)
-        
+
         if key == ord('q'):
             break
-    
+
     cap.release()
     cv2.destroyAllWindows()
 
